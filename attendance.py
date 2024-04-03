@@ -77,10 +77,18 @@ def main():
     print("Good Morning!!")
     print("Today's Date - ",date.today())
     print()
-    print("Select tool \n Enter 1 for Attendance \n Enter 2 for Attendance calculator \n Enter 3 to add new employees \n Enter any no. to exit ")
+    df = pd.read_csv('employee.csv',index_col = 0)
+    today = date.today()
+    today = pd.to_datetime(today)
+    today = str(today)
+    last_date = str(pd.to_datetime(df.Date.iloc[-1]))
+    if last_date == today:
+        print("Enter 2 for Attendance calculator \n Enter 3 to add new employees \n Enter any no. to exit ")
+    else:
+        print("Select tool \n Enter 1 for Attendance \n Enter 2 for Attendance calculator \n Enter 3 to add new employees \n Enter any no. to exit ")
     tool = int(input("Enter choice : "))
     while(tool<=4):
         select(tool)
         tool = int(input("Enter choice : "))
-
+        
 main()
