@@ -51,16 +51,38 @@ def attendance_system():
 
 def attendance_calculator():
     df = pd.read_csv("employee.csv",index_col = 0)
-    for i in range(1,df.columns.size):
+    list1 = []
+    day = str(input("Enter start date : "))
+    month = str(input("Enter start month : "))
+    year = str(input("Enter start year : "))
+    date1 = month+"/"+day+"/"+year
+    day = str(input("Enter end date : "))
+    month = str(input("Enter end month : "))
+    year = str(input("Enter end year : "))
+    date2 = month+"/"+day+"/"+year
+    for i in df.Date:
+        if i >= date1 and i <= date2:
+            x = df[df.Date == i].iloc[0,:]
+            x = np.array(x)
+            list1.append(x)
+    list1 = pd.DataFrame(list1)
+    for i in range(1,list1.columns.size):
         P = 0
         A = 0
-        i = str(i)
-        for j in df[str(i)]:
+        for j in list1.iloc[:,i]:
             if j == "P":
                 P += 1
             else:
                 A += 1
         print("Employee id ",i," is present for ",P," days and was absent for ",A,"days.")
+
+def Lookout():
+    df = pd.read_csv("employee.csv",index_col = 0)
+    day = str(input("Enter date : "))
+    month = str(input("Enter month : "))
+    year = str(input("Enter year : "))
+    date = month+"/"+day+"/"+year
+    print(df[df.Date == date])
 
 def select(status):
     match status:
@@ -70,6 +92,8 @@ def select(status):
             attendance_calculator()
         case 3 :
             add_new_employees()
+        case 4 :
+            Lookout()
         case _ :
             print("Error!!")
 
@@ -84,8 +108,25 @@ def main():
     last_date = str(pd.to_datetime(df.Date.iloc[-1]))
     if last_date == today:
         print("Enter 2 for Attendance calculator \n Enter 3 to add new employees \n Enter any no. to exit ")
+	def main():
+    print("Good Morning!!")
+    print("Today's Date - ",date.today())
+    print()
+    df = pd.read_csv('employee.csv',index_col = 0)
+    today = date.today()
+    today = pd.to_datetime(today)
+    today = str(today)
+    last_date = str(pd.to_datetime(df.Date.iloc[-1]))
+    if last_date == today:
+        print("Enter 2 for Attendance calculator \n Enter 3 to add new employees \n Enter any no. to exit ")
     else:
-        print("Select tool \n Enter 1 for Attendance \n Enter 2 for Attendance calculator \n Enter 3 to add new employees \n Enter any no. to exit ")
+        print("Select tool \n Enter 1 for Attendance \n Enter 2 for Attendance calculator \n Enter 3 to add new employees \n Enter 4 for Lookout \n Enter any no. to exit ")
+    tool = int(input("Enter choice : "))
+    while(tool<=4):
+        select(tool)
+        tool = int(input("Enter choice : "))
+    else:
+        print("Select tool \n Enter 1 for Attendance \n Enter 2 for Attendance calculator \n Enter 3 to add new employees \n Enter 4 for Lookout \n Enter any no. to exit ")
     tool = int(input("Enter choice : "))
     while(tool<=4):
         select(tool)
